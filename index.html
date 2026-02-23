@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mca Chai Wala — Indian Coffee Shop</title>
+  <meta name="description" content="Mca Chai Wala is a premium artisan coffee shop serving hand-crafted brews, fresh pastries, and warm vibes. Visit us or send a message!" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            espresso: '#2C1A0E',
+            roast:    '#5C3317',
+            caramel:  '#C17F3A',
+            cream:    '#F5ECD7',
+            mocha:    '#8B5E3C',
+            steam:    '#FAF6EF',
+          },
+          fontFamily: {
+            display: ['"Playfair Display"', 'serif'],
+            body:    ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+
+    /* Navbar link hover underline */
+    .nav-link::after {
+      content: '';
+      display: block;
+      height: 2px;
+      background: #C17F3A;
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    .nav-link:hover::after { transform: scaleX(1); }
+
+    /* Hero parallax-like overlay */
+    .hero-bg {
+      background: linear-gradient(135deg, rgba(44,26,14,0.82) 0%, rgba(92,51,23,0.65) 60%, rgba(193,127,58,0.35) 100%),
+                  url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1600&q=80') center/cover no-repeat;
+    }
+
+    /* Card hover lift */
+    .menu-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(44,26,14,0.25); }
+
+    /* Input focus ring */
+    .form-input:focus { outline: none; border-color: #C17F3A; box-shadow: 0 0 0 3px rgba(193,127,58,0.25); }
+
+    /* Floating label animation */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-up { animation: fadeInUp 0.8s ease forwards; }
+    .delay-200 { animation-delay: 0.2s; opacity: 0; }
+    .delay-400 { animation-delay: 0.4s; opacity: 0; }
+    .delay-600 { animation-delay: 0.6s; opacity: 0; }
+
+    /* Section divider wave */
+    .wave-divider svg { display: block; }
+  </style>
+</head>
+<body class="font-body bg-steam text-espresso">
+
+  <!-- ═══════════════════════════  NAVBAR  ═══════════════════════════ -->
+  <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent" role="banner">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="#home" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-full bg-caramel flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+          <svg viewBox="0 0 40 40" class="w-6 h-6 fill-white"><path d="M8 28c0 4 5 6 12 6s12-2 12-6V14H8v14zm18-10h2a4 4 0 010 8h-2v-8zM10 8h20v4H10z"/></svg>
+        </div>
+        <span class="font-display text-xl font-bold text-white tracking-wide">Mca Chai <span class="text-caramel">&</span> Wala</span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center gap-8" aria-label="Primary navigation">
+        <a href="#menu"    class="nav-link text-white/90 hover:text-caramel text-sm font-medium transition-colors">Menu</a>
+        <a href="#about"   class="nav-link text-white/90 hover:text-caramel text-sm font-medium transition-colors">About</a>
+        <a href="#contact" class="nav-link text-white/90 hover:text-caramel text-sm font-medium transition-colors">Contact</a>
+        <a href="#contact" id="navbar-cta" class="bg-caramel hover:bg-roast text-white text-sm font-semibold px-5 py-2 rounded-full transition-colors shadow-md">
+          Reserve a Table
+        </a>
+      </nav>
+
+      <!-- Mobile hamburger -->
+      <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none" aria-label="Toggle mobile menu" aria-expanded="false">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path id="hamburger-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-espresso/95 backdrop-blur-sm px-6 pb-6 pt-2 space-y-4">
+      <a href="#menu"    class="block text-cream hover:text-caramel font-medium transition-colors">Menu</a>
+      <a href="#about"   class="block text-cream hover:text-caramel font-medium transition-colors">About</a>
+      <a href="#contact" class="block text-cream hover:text-caramel font-medium transition-colors">Contact</a>
+      <a href="#contact" class="inline-block bg-caramel text-white font-semibold px-5 py-2 rounded-full transition-colors">Reserve a Table</a>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════  HERO  ═══════════════════════════ -->
+  <section id="home" class="hero-bg min-h-screen flex items-center justify-center relative overflow-hidden" aria-labelledby="hero-heading">
+    <!-- Decorative circles -->
+    <div class="absolute top-20 right-24 w-64 h-64 rounded-full border border-caramel/20 animate-pulse hidden lg:block"></div>
+    <div class="absolute bottom-24 left-16 w-40 h-40 rounded-full border border-cream/10 hidden lg:block"></div>
+
+    <div class="text-center px-6 max-w-4xl mx-auto">
+      <p class="animate-fade-up text-caramel uppercase tracking-[0.35em] text-sm font-semibold mb-4">Est. 2018 · Indian Coffee</p>
+      <h1 id="hero-heading" class="animate-fade-up delay-200 font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white leading-tight">
+        Crafted With <br/><span class="text-caramel italic">Passion.</span>
+      </h1>
+      <p class="animate-fade-up delay-400 mt-6 text-cream/80 text-lg md:text-xl max-w-xl mx-auto leading-relaxed">
+        Every cup tells a story — from our single-origin beans to your hands. Come taste the difference.
+      </p>
+      <div class="animate-fade-up delay-600 mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="#menu" id="hero-menu-btn" class="bg-caramel hover:bg-roast text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 shadow-xl hover:shadow-caramel/30 hover:scale-105">
+          Explore Our Menu
+        </a>
+        <a href="#about" id="hero-about-btn" class="border border-cream/50 hover:border-caramel text-cream hover:text-caramel font-semibold px-8 py-4 rounded-full transition-all duration-300 backdrop-blur-sm">
+          Our Story
+        </a>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-cream/50">
+      <span class="text-xs uppercase tracking-widest">Scroll</span>
+      <div class="w-px h-10 bg-cream/30 animate-pulse"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════  STATS BAND  ═══════════════════════════ -->
+  <div class="bg-espresso py-10">
+    <div class="max-w-5xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <div>
+        <p class="font-display text-4xl font-bold text-caramel">12+</p>
+        <p class="text-cream/60 text-sm mt-1 uppercase tracking-wider">Bean Origins</p>
+      </div>
+      <div>
+        <p class="font-display text-4xl font-bold text-caramel">200+</p>
+        <p class="text-cream/60 text-sm mt-1 uppercase tracking-wider">Daily Cups</p>
+      </div>
+      <div>
+        <p class="font-display text-4xl font-bold text-caramel">8</p>
+        <p class="text-cream/60 text-sm mt-1 uppercase tracking-wider">Years Serving</p>
+      </div>
+      <div>
+        <p class="font-display text-4xl font-bold text-caramel">4.9★</p>
+        <p class="text-cream/60 text-sm mt-1 uppercase tracking-wider">Avg Rating</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════  MENU  ═══════════════════════════ -->
+  <section id="menu" class="py-24 px-6 bg-steam" aria-labelledby="menu-heading">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <p class="text-caramel uppercase tracking-[0.3em] text-sm font-semibold mb-2">What We Serve</p>
+        <h2 id="menu-heading" class="font-display text-4xl md:text-5xl font-bold text-espresso">Our Signature Menu</h2>
+        <div class="mt-4 w-16 h-1 bg-caramel mx-auto rounded-full"></div>
+      </div>
+
+      <!-- Category tabs -->
+      <div class="flex justify-center gap-3 mb-12 flex-wrap" role="tablist" aria-label="Menu categories">
+        <button role="tab" aria-selected="true" id="tab-coffee" onclick="filterMenu('coffee')"
+          class="menu-tab active-tab px-6 py-2 rounded-full text-sm font-semibold bg-caramel text-white transition-all">
+          ☕ Coffee
+        </button>
+        <button role="tab" aria-selected="false" id="tab-specialty" onclick="filterMenu('specialty')"
+          class="menu-tab px-6 py-2 rounded-full text-sm font-semibold bg-cream text-roast border border-caramel/30 transition-all">
+          🍵 Specialty
+        </button>
+        <button role="tab" aria-selected="false" id="tab-pastry" onclick="filterMenu('pastry')"
+          class="menu-tab px-6 py-2 rounded-full text-sm font-semibold bg-cream text-roast border border-caramel/30 transition-all">
+          🥐 Pastries
+        </button>
+      </div>
+
+      <!-- Menu Cards -->
+      <div id="menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <!-- Coffee Cards -->
+        <article class="menu-card coffee-item bg-white rounded-2xl overflow-hidden shadow-md transition-all duration-300 cursor-default border border-caramel/10">
+          <div class="h-48 bg-gradient-to-br from-roast to-espresso flex items-center justify-center text-7xl">☕</div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="font-display text-xl font-bold text-espresso">Signature Espresso</h3>
+              <span class="font-bold text-caramel">$3.50</span>
+            </div>
+            <p class="text-mocha text-sm leading-relaxed">A bold, velvety shot pulled from our house-blend single-origin beans with a rich crema finish.</p>
+            <span class="mt-4 inline-block text-xs bg-cream text-roast px-3 py-1 rounded-full border border-caramel/20">Bestseller</span>
+          </div>
+        </article>
+
+        <article class="menu-card coffee-item bg-white rounded-2xl overflow-hidden shadow-md transition-all duration-300 cursor-default border border-caramel/10">
+          <div class="h-48 bg-gradient-to-br from-caramel to-roast flex items-center justify-center text-7xl">🥛</div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="font-display text-xl font-bold text-espresso">Honey Flat White</h3>
+              <span class="font-bold text-caramel">$4.75</span>
+            </div>
+            <p class="text-mocha text-sm leading-relaxed">Silky micro-foam milk poured over a double ristretto, kissed with wildflower honey and cinnamon.</p>
+            <span class="mt-4 inline-block text-xs bg-cream text-roast px-3 py-1 rounded-full border border-caramel/20">Staff Pick</span>
+          </div>
+        </article>
+
+        <article class="menu-card coffee-item bg-white rounded-2xl overflow-hidden shadow-md transition-all duration-300 cursor-default border border-caramel/10">
+          <div class="h-48 bg-gradient-to-br from-espresso to-mocha flex items-center justify-center text-7xl">🧊</div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="font-display text-xl font-bold text-espresso">Cold Brew Tonic</h3>
+              <span class="font-bold text-caramel">$5.25</span>
+            </div>
+            <p class="text-mocha text-sm leading-relaxed">18-hour cold-steeped brew poured over ice with sparkling tonic water and a citrus twist.</p>
+            <span class="mt-4 inline-block text-xs bg-caramel/10 text-caramel px-3 py-1 rounded-full border border-caramel/20">Seasonal</span>
+          </div>
+        </article>
+
+        <!-- Specialty Cards -->
+        <article class="menu-card specialty-item hidden bg-white rounded-2xl overflow-hidden shadow-md transition-all duration-300 cursor-default border border-caramel/10">
+          <div class="h-48 bg-gradient-to-br from-emerald-700 to-teal-900 flex items-center justify-center text-7xl">🍵</div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="font-display text-xl font-bold text-espresso">Matcha Latte</h3>
+              <span class="font-bold text-caramel">$5.00</span>
+            </div>
+            <p class="text-mocha text-sm leading-relaxed">Ceremonial-grade Japanese matcha whisked to perfection and blended with oat milk and a hint of vanilla.</p>
+            <span class="mt-4 inline-block text-xs bg-cream text-roast px-3 py-1 rounded-full border border-caramel/20">Vegan</span>
+          </div>
+        </article>
+
+        <article class="menu-card specialty-item hidden bg-white rounded-2xl overflow-hidden shadow-md transition-all duration-300 cursor-default border border-caramel/10">
+          <div class="h-48 bg-gradient-to-br from-yellow-800 to-amber-600 flex items-center justify-center text-7xl">🧋</div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="font-display text-xl font-bold text-espresso">Turmeric Golden Milk</h3>
+              <span class="font-bold text-caramel">$4.50</span>
+            </div>
+            <p class="text-mocha text-sm leading-relaxed">A warming blend of turmeric, ginger, black pepper, and steamed coconut milk. Caffeine-free bliss.</p>
+            <span class="mt-4 inline-block text-xs bg-cream text-roast px-3 py-1 rounded-full border border-caramel/20">Wellness</span>
+          </div>
+        </article>
+
+        <article class="menu-card specialty-item hidden bg-white rounded-2xl overflow-hidden shadow-md transition-all duration-300 cursor-default border border-caramel/10">
+          <div class="h-48 bg-gradient-to-br from-pink-700 to-rose-900 flex items-center justify-center text-7xl">🌹</div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="font-display text-xl font-bold text-espresso">Rose Chai</h3>
+              <span class="font-bold text-caramel">$4.75</span>
+            </div>
+            <p class="text-mocha text-sm leading-relaxed">House-blended spiced chai with rose water, cardamom, and frothy steamed milk for a floral finish.</p>
+          </div>
+        </article>
+
+        <!-- Pastry Cards -->
+        <article class="menu-card pastry-item hidden bg-white rounded-2xl overflow-hidden shadow-md transition-all duration-300 cursor-default border border-caramel/10">
+          <div class="h-48 bg-gradient-to-br from-amber-500 to-yellow-700 flex items-center justify-center text-7xl">🥐</div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="font-display text-xl font-bold text-espresso">Butter Croissant</h3>
+              <span class="font-bold text-caramel">$3.25</span>
+            </div>
+            <p class="text-mocha text-sm leading-relaxed">Flaky, golden layers of imported French butter pastry baked fresh each morning. Pairs perfectly with espresso.</p>
+            <span class="mt-4 inline-block text-xs bg-cream text-roast px-3 py-1 rounded-full border border-caramel/20">Freshly Baked</span>
+          </div>
+        </article>
+
+        <article class="menu-card pastry-item hidden bg-white rounded-2xl overflow-hidden shadow-md transition-all duration-300 cursor-default border border-caramel/10">
+          <div class="h-48 bg-gradient-to-br from-amber-800 to-stone-800 flex items-center justify-center text-7xl">🍰</div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="font-display text-xl font-bold text-espresso">Espresso Cheesecake</h3>
+              <span class="font-bold text-caramel">$5.50</span>
+            </div>
+            <p class="text-mocha text-sm leading-relaxed">NY-style cheesecake swirled with a double espresso reduction on a chocolate-hazelnut crust.</p>
+            <span class="mt-4 inline-block text-xs bg-caramel/10 text-caramel px-3 py-1 rounded-full border border-caramel/20">House Special</span>
+          </div>
+        </article>
+
+        <article class="menu-card pastry-item hidden bg-white rounded-2xl overflow-hidden shadow-md transition-all duration-300 cursor-default border border-caramel/10">
+          <div class="h-48 bg-gradient-to-br from-stone-700 to-zinc-800 flex items-center justify-center text-7xl">🍩</div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="font-display text-xl font-bold text-espresso">Cardamom Donut</h3>
+              <span class="font-bold text-caramel">$3.75</span>
+            </div>
+            <p class="text-mocha text-sm leading-relaxed">Pillowy brioche donut dusted with cardamom sugar and drizzled with a salted caramel glaze.</p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════  ABOUT  ═══════════════════════════ -->
+  <section id="about" class="py-24 px-6 bg-espresso" aria-labelledby="about-heading">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+      <!-- Text -->
+      <div>
+        <p class="text-caramel uppercase tracking-[0.3em] text-sm font-semibold mb-3">Our Story</p>
+        <h2 id="about-heading" class="font-display text-4xl md:text-5xl font-bold text-cream leading-tight">
+          Born From a <span class="text-caramel italic">Love</span> of Coffee
+        </h2>
+        <div class="mt-6 space-y-4 text-cream/70 leading-relaxed">
+          <p>It started in 2018 with a small roaster, a borrowed grinder, and an obsession with the perfect cup. What grew from a weekend farmers market stall is now a beloved neighborhood fixture.</p>
+          <p>We source our beans directly from small-scale farms across Ethiopia, Colombia, and Indonesia — building relationships that ensure quality and fair compensation for farmers.</p>
+          <p>Every drink is pulled, poured, and served with intention. We don't rush coffee, and we won't rush yours.</p>
+        </div>
+        <div class="mt-8 flex gap-6">
+          <div class="text-center">
+            <p class="font-display text-3xl font-bold text-caramel">3</p>
+            <p class="text-cream/50 text-xs uppercase tracking-wider mt-1">Locations</p>
+          </div>
+          <div class="w-px bg-cream/10"></div>
+          <div class="text-center">
+            <p class="font-display text-3xl font-bold text-caramel">15</p>
+            <p class="text-cream/50 text-xs uppercase tracking-wider mt-1">Team Members</p>
+          </div>
+          <div class="w-px bg-cream/10"></div>
+          <div class="text-center">
+            <p class="font-display text-3xl font-bold text-caramel">6</p>
+            <p class="text-cream/50 text-xs uppercase tracking-wider mt-1">Awards Won</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual panel -->
+      <div class="relative">
+        <div class="rounded-3xl overflow-hidden h-96 bg-gradient-to-br from-roast via-mocha to-caramel flex items-center justify-center shadow-2xl shadow-black/40">
+          <div class="text-center px-8">
+            <div class="text-8xl mb-4">☕</div>
+            <p class="font-display text-2xl font-bold text-cream italic">"The best ideas begin over good coffee."</p>
+            <p class="text-cream/50 mt-3 text-sm">— Santosh And Rohit, Founders</p>
+          </div>
+        </div>
+        <!-- floating badge -->
+        <div class="absolute -bottom-5 -left-5 bg-caramel text-white rounded-2xl px-5 py-4 shadow-xl">
+          <p class="font-display text-2xl font-black">4.9★</p>
+          <p class="text-xs text-white/80">2,400+ reviews</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════  TESTIMONIALS  ═══════════════════════════ -->
+  <section class="py-20 px-6 bg-cream" aria-label="Customer testimonials">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-12">
+        <p class="text-caramel uppercase tracking-[0.3em] text-sm font-semibold mb-2">Testimonials</p>
+        <h2 class="font-display text-4xl font-bold text-espresso">What Our Guests Say</h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+        <blockquote class="bg-white rounded-2xl p-6 shadow-sm border border-caramel/10">
+          <p class="text-4xl text-caramel mb-3">"</p>
+          <p class="text-mocha leading-relaxed text-sm">The honey flat white is life-changing. I've tried cafés across three continents and Ember & Roast still wins.</p>
+          <footer class="mt-5 flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-caramel flex items-center justify-center text-white font-bold text-sm">S</div>
+            <div>
+              <p class="font-semibold text-espresso text-sm">Santosh Joshi.</p>
+              <p class="text-mocha/60 text-xs">Regular since 2020</p>
+            </div>
+          </footer>
+        </blockquote>
+        <blockquote class="bg-white rounded-2xl p-6 shadow-sm border border-caramel/10">
+          <p class="text-4xl text-caramel mb-3">"</p>
+          <p class="text-mocha leading-relaxed text-sm">The vibe, the music, the baristas who actually know your order — this place is community. 10/10 every visit.</p>
+          <footer class="mt-5 flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-roast flex items-center justify-center text-white font-bold text-sm">J</div>
+            <div>
+              <p class="font-semibold text-espresso text-sm">M Vignesh.</p>
+              <p class="text-mocha/60 text-xs">Freelancer & daily visitor</p>
+            </div>
+          </footer>
+        </blockquote>
+        <blockquote class="bg-white rounded-2xl p-6 shadow-sm border border-caramel/10">
+          <p class="text-4xl text-caramel mb-3">"</p>
+          <p class="text-mocha leading-relaxed text-sm">I held my team offsite here. The private space, the food, the espresso — it made our whole quarter feel inspired.</p>
+          <footer class="mt-5 flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-mocha flex items-center justify-center text-white font-bold text-sm">A</div>
+            <div>
+              <p class="font-semibold text-espresso text-sm">T Rohit.</p>
+              <p class="text-mocha/60 text-xs">Marketing Director</p>
+            </div>
+          </footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════  CONTACT  ═══════════════════════════ -->
+  <section id="contact" class="py-24 px-6 bg-steam" aria-labelledby="contact-heading">
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-start">
+
+      <!-- Info -->
+      <div>
+        <p class="text-caramel uppercase tracking-[0.3em] text-sm font-semibold mb-3">Find Us</p>
+        <h2 id="contact-heading" class="font-display text-4xl md:text-5xl font-bold text-espresso leading-tight">
+          Come In. <span class="text-caramel italic">Say Namaste.</span>
+        </h2>
+        <p class="mt-5 text-mocha/80 leading-relaxed">Our doors are open. Bring a book, bring a colleague, or just come for that one perfect cup you've been thinking about all morning.</p>
+
+        <div class="mt-10 space-y-6">
+          <div class="flex gap-4 items-start">
+            <div class="w-11 h-11 rounded-full bg-caramel/15 flex items-center justify-center flex-shrink-0">
+              <svg class="w-5 h-5 text-caramel" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-semibold text-espresso">Our Location</p>
+              <p class="text-mocha/70 text-sm mt-1">4th Cross Near Bull Temple Basavanagudi<br/>Bengaluru, KA 560027</p>
+            </div>
+          </div>
+          <div class="flex gap-4 items-start">
+            <div class="w-11 h-11 rounded-full bg-caramel/15 flex items-center justify-center flex-shrink-0">
+              <svg class="w-5 h-5 text-caramel" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-semibold text-espresso">Opening Hours</p>
+              <p class="text-mocha/70 text-sm mt-1">Mon – Fri: 7:00 AM – 8:00 PM<br/>Sat – Sun: 8:00 AM – 9:00 PM</p>
+            </div>
+          </div>
+          <div class="flex gap-4 items-start">
+            <div class="w-11 h-11 rounded-full bg-caramel/15 flex items-center justify-center flex-shrink-0">
+              <svg class="w-5 h-5 text-caramel" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-semibold text-espresso">Contact</p>
+              <p class="text-mocha/70 text-sm mt-1">McaChaiWala@gmail.com<br/>+91 7892747254</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 border border-caramel/10">
+        <h3 class="font-display text-2xl font-bold text-espresso mb-2">Send Us a Message</h3>
+        <p class="text-mocha/60 text-sm mb-8">Reservations, events, or just a kind note — we'd love to hear from you.</p>
+
+        <form id="contact-form" novalidate class="space-y-5" aria-label="Contact form">
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label for="first-name" class="block text-sm font-medium text-espresso mb-1.5">First Name <span class="text-caramel">*</span></label>
+              <input type="text" id="first-name" name="firstName" required placeholder="Emma"
+                class="form-input w-full border border-caramel/30 rounded-xl px-4 py-3 text-espresso bg-steam text-sm transition-all" />
+              <p class="error-msg hidden text-red-500 text-xs mt-1" id="fn-error">Please enter your first name.</p>
+            </div>
+            <div>
+              <label for="last-name" class="block text-sm font-medium text-espresso mb-1.5">Last Name <span class="text-caramel">*</span></label>
+              <input type="text" id="last-name" name="lastName" required placeholder="Chen"
+                class="form-input w-full border border-caramel/30 rounded-xl px-4 py-3 text-espresso bg-steam text-sm transition-all" />
+              <p class="error-msg hidden text-red-500 text-xs mt-1" id="ln-error">Please enter your last name.</p>
+            </div>
+          </div>
+
+          <div>
+            <label for="email" class="block text-sm font-medium text-espresso mb-1.5">Email Address <span class="text-caramel">*</span></label>
+            <input type="email" id="email" name="email" required placeholder="rohit@example.com"
+              class="form-input w-full border border-caramel/30 rounded-xl px-4 py-3 text-espresso bg-steam text-sm transition-all" />
+            <p class="error-msg hidden text-red-500 text-xs mt-1" id="email-error">Please enter a valid email address.</p>
+          </div>
+
+          <div>
+            <label for="subject" class="block text-sm font-medium text-espresso mb-1.5">Subject</label>
+            <select id="subject" name="subject"
+              class="form-input w-full border border-caramel/30 rounded-xl px-4 py-3 text-espresso bg-steam text-sm transition-all appearance-none">
+              <option value="">— Select a topic —</option>
+              <option value="reservation">Table Reservation</option>
+              <option value="event">Private Event</option>
+              <option value="wholesale">Wholesale Inquiry</option>
+              <option value="feedback">Feedback</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="message" class="block text-sm font-medium text-espresso mb-1.5">Message <span class="text-caramel">*</span></label>
+            <textarea id="message" name="message" required rows="4" placeholder="Tell us what's on your mind…"
+              class="form-input w-full border border-caramel/30 rounded-xl px-4 py-3 text-espresso bg-steam text-sm transition-all resize-none"></textarea>
+            <p class="error-msg hidden text-red-500 text-xs mt-1" id="msg-error">Please enter a message.</p>
+          </div>
+
+          <button type="submit" id="submit-btn"
+            class="w-full bg-caramel hover:bg-roast text-white font-semibold py-4 rounded-xl transition-all duration-300 shadow-md hover:shadow-caramel/30 hover:scale-[1.02] text-sm">
+            Send Message ✉️
+          </button>
+
+          <!-- Success toast -->
+          <div id="form-success" class="hidden bg-green-50 border border-green-200 text-green-800 rounded-xl px-5 py-4 text-sm text-center font-medium">
+            ✅ Thanks! We'll get back to you within 24 hours.
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════  FOOTER  ═══════════════════════════ -->
+  <footer class="bg-espresso text-cream/60 py-12 px-6" role="contentinfo">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-full bg-caramel flex items-center justify-center">
+          <svg viewBox="0 0 40 40" class="w-5 h-5 fill-white"><path d="M8 28c0 4 5 6 12 6s12-2 12-6V14H8v14zm18-10h2a4 4 0 010 8h-2v-8zM10 8h20v4H10z"/></svg>
+        </div>
+        <span class="font-display text-cream font-bold">Mca Chai <span class="text-caramel">&</span> Wala</span>
+      </div>
+
+      <p class="text-sm text-center">© 2026 Mca Chai Wala. Crafted with ☕ and care.</p>
+
+      <div class="flex gap-5">
+        <a href="#home" class="hover:text-caramel text-sm transition-colors" aria-label="Back to top">Home</a>
+        <a href="#menu" class="hover:text-caramel text-sm transition-colors">Menu</a>
+        <a href="#about" class="hover:text-caramel text-sm transition-colors">About</a>
+        <a href="#contact" class="hover:text-caramel text-sm transition-colors">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════  SCRIPTS  ═══════════════════════════ -->
+  <script>
+    // ── Navbar scroll effect ──────────────────────────────────────────
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) {
+        navbar.classList.add('bg-espresso/95', 'backdrop-blur-md', 'shadow-lg');
+        navbar.classList.remove('bg-transparent');
+      } else {
+        navbar.classList.remove('bg-espresso/95', 'backdrop-blur-md', 'shadow-lg');
+        navbar.classList.add('bg-transparent');
+      }
+    });
+
+    // ── Mobile menu toggle ────────────────────────────────────────────
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu    = document.getElementById('mobile-menu');
+    mobileMenuBtn.addEventListener('click', () => {
+      const isOpen = !mobileMenu.classList.contains('hidden');
+      mobileMenu.classList.toggle('hidden');
+      mobileMenuBtn.setAttribute('aria-expanded', String(!isOpen));
+    });
+    // Close on link click
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+    });
+
+    // ── Menu category filter ──────────────────────────────────────────
+    function filterMenu(category) {
+      const allItems = document.querySelectorAll('.menu-card');
+      const tabs     = document.querySelectorAll('.menu-tab');
+
+      allItems.forEach(card => {
+        const show = card.classList.contains(`${category}-item`);
+        card.classList.toggle('hidden', !show);
+        card.classList.toggle('block', show);
+      });
+
+      tabs.forEach(tab => {
+        const isActive = tab.id === `tab-${category}`;
+        tab.classList.toggle('bg-caramel', isActive);
+        tab.classList.toggle('text-white', isActive);
+        tab.classList.toggle('bg-cream', !isActive);
+        tab.classList.toggle('text-roast', !isActive);
+        tab.setAttribute('aria-selected', String(isActive));
+      });
+    }
+
+    // ── Contact form validation & submission ──────────────────────────
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      let valid = true;
+
+      const fields = [
+        { id: 'first-name', errId: 'fn-error',    check: v => v.trim().length > 0 },
+        { id: 'last-name',  errId: 'ln-error',    check: v => v.trim().length > 0 },
+        { id: 'email',      errId: 'email-error',  check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
+        { id: 'message',    errId: 'msg-error',    check: v => v.trim().length > 0 },
+      ];
+
+      fields.forEach(({ id, errId, check }) => {
+        const input = document.getElementById(id);
+        const error = document.getElementById(errId);
+        const ok    = check(input.value);
+        error.classList.toggle('hidden', ok);
+        input.classList.toggle('border-red-400', !ok);
+        if (!ok) valid = false;
+      });
+
+      if (valid) {
+        const btn = document.getElementById('submit-btn');
+        btn.textContent = 'Sending…';
+        btn.disabled = true;
+        setTimeout(() => {
+          btn.classList.add('hidden');
+          document.getElementById('form-success').classList.remove('hidden');
+        }, 1200);
+      }
+    });
+  </script>
+</body>
+</html>
